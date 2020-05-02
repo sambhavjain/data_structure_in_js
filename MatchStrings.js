@@ -28,6 +28,7 @@ const matchStrings = ( a, b ) => {
                 freqA[char] ++;
             }
         })
+        let diff = {};
         arrB.forEach(char => {
             if(!freqB[char]){
                 freqB[char] = 1;
@@ -35,13 +36,35 @@ const matchStrings = ( a, b ) => {
                 freqB[char] ++;
             }
         })
-    
-        if(Object.keys(freqA).length !== Object.keys(freqB).length) {
-            isPossible = false;
+
+        for(let char in freqB) {
+            // console.log(freq)
+            if(!freqA[char]){
+                diff[char] = freqB[char];
+            } else {
+                let charDiff = Math.abs(freqB[char] - freqA[char]);
+                if(charDiff !== 0) {
+                    diff[char] = charDiff;
+                }
+            }
         }
+        Object.values(diff).forEach(value => {
+            if(value % 2 !== 0){
+                isPossible = false;
+            }
+        })
+
+        // console.log({diff})
+    
     }
     return isPossible;
 }
 
 console.log(matchStrings('adbc', 'abdc'));
 console.log(matchStrings('abbc', 'abdc'));
+console.log(matchStrings('abcde', 'cdfbe'));
+console.log(matchStrings('abdbb', 'abddc'));
+console.log(matchStrings('abcdee', 'abcdff'));
+console.log(matchStrings('abdbb', 'abcdc'));
+console.log(matchStrings('abcde', 'abcdf'));
+console.log(matchStrings('abcdeebb', 'abcdffcc'));
